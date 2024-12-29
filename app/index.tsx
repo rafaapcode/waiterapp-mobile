@@ -1,7 +1,11 @@
-import TextComponent from "@/components/Text";
+import Main from "@/components/main";
+import { StatusBar } from "expo-status-bar";
 
 export default function Index() {
   return (
-    <TextComponent>Teste</TextComponent>
+    <>
+      <StatusBar style="dark"/>
+      <Main />
+    </>
   );
 }
