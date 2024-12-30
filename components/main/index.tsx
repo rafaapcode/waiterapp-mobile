@@ -1,13 +1,24 @@
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import TextComponent from '../Text'
+import React from "react";
+import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../header/Header";
+import { styles } from "./style";
 
 const Main = () => {
   return (
-    <SafeAreaView>
-      <TextComponent>Main</TextComponent>
-    </SafeAreaView>
-  )
-}
+    <>
+      <SafeAreaView style={styles.container}>
+        <Header />
+        <View style={styles.categoriesContainer}></View>
+        <View style={styles.menuContainer}></View>
+      </SafeAreaView>
+      <View style={styles.footer}>
+        <SafeAreaView style={styles.footerContainer}>
 
-export default Main
+        </SafeAreaView>
+      </View>
+    </>
+  );
+};
+
+export default Main;
