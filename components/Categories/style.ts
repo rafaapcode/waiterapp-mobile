@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     padding: 11,
     alignItems: 'center',
     marginBottom: 8,
-    marginHorizontal: 'auto'
+    marginHorizontal: 'auto',
+    elevation: 2
   }
 });
