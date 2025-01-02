@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Button from "../button/Button";
 import Categories from "../Categories/Categories";
 import Header from "../header/Header";
 import Menu from "../Menu/Menu";
@@ -20,7 +21,9 @@ const Main = () => {
       </SafeAreaView>
       <View style={styles.footer}>
         <SafeAreaView style={styles.footerContainer}>
-
+          <Button>
+            Salvar Pedido
+          </Button>
         </SafeAreaView>
       </View>
     </>
