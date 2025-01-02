@@ -21,7 +21,7 @@ const Main = () => {
       </SafeAreaView>
       <View style={styles.footer}>
         <SafeAreaView style={styles.footerContainer}>
-          <Button>
+          <Button onPress={() => {}}>
             Salvar Pedido
           </Button>
         </SafeAreaView>

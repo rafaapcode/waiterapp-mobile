@@ -5,11 +5,13 @@ import { styles } from './style'
 
 type ButtonProps = {
   children: React.ReactNode;
+  onPress: () => void;
+  disabled?: boolean;
 }
 
-const Button = ({children}: ButtonProps) => {
+const Button = ({children, onPress, disabled}: ButtonProps) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity onPress={onPress} disabled={disabled} style={[styles.container, disabled && {backgroundColor: '#999'}]}>
       <TextComponent color='#fff' weight='600'>{children}</TextComponent>
     </TouchableOpacity>
   )
