@@ -1,5 +1,7 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 import React from "react";
 
 const MainLayout = () => {
@@ -9,6 +11,7 @@ const MainLayout = () => {
     'GeneralSans-700': require('../assets/fonts/GeneralSans-Semibold.otf')
   });
 
+  if(!loaded) return null;
 
   return (
     <Stack>
