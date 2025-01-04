@@ -1,10 +1,11 @@
+import TableModal from "@/components/tableModal/TableModal";
 import React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Button from "../button/Button";
-import Categories from "../Categories/Categories";
-import Header from "../header/Header";
-import Menu from "../Menu/Menu";
+import Button from "../../components/button/Button";
+import Categories from "../../components/Categories/Categories";
+import Header from "../../components/header/Header";
+import Menu from "../../components/Menu/Menu";
 import { styles } from "./style";
 
 const Main = () => {
@@ -26,6 +27,7 @@ const Main = () => {
           </Button>
         </SafeAreaView>
       </View>
+      <TableModal />
     </>
   );
 };
