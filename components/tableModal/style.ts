@@ -20,9 +20,15 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   form: {
-
+    marginTop: 32,
   },
   input: {
-    
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgba(204,204,204,0.5)',
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 24
   }
 });
