@@ -23,6 +23,7 @@ const TableModal = ({ visible, onClose, onSave }: TableModalProps) => {
 
   const handleSave = () => {
     onSave(table);
+    setTable('');
     onClose();
   };
 

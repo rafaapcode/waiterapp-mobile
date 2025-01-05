@@ -6,4 +6,20 @@ export const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginBottom: 0,
   },
+  content: { 
+  },
+  orderHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%'
+  },
+  table: {
+    padding: 16,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: 'rgba(204,204,204,0.3)',
+    borderRadius: 8,
+    marginTop: 24
+  }
 });

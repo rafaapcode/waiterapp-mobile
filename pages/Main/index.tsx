@@ -20,10 +20,14 @@ const Main = () => {
     setSelectedTable(table);
   };
 
+  const handleCancelOrder = () => {
+    setSelectedTable('');
+  };
+
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <Header />
+        <Header onCancelOrder={handleCancelOrder} selectedTable={selectedTable}/>
         <View style={styles.categoriesContainer}>
           <Categories />
         </View>
