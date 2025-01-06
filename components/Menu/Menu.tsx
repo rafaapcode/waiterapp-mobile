@@ -1,4 +1,5 @@
 import { products } from "@/constants/products";
+import { ProductsType } from "@/types/Product";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { useState } from "react";
 import { FlatList, Image, TouchableOpacity, View } from "react-native";
@@ -7,18 +8,7 @@ import ProductModal from "../ProductModal/ProductModal";
 import TextComponent from "../Text";
 import { styles } from "./style";
 
-type ProductsType = {
-  _id: string;
-  name: string;
-  description: string;
-  imagePath: string;
-  price: number;
-  ingredients: {
-    name: string;
-    icon: string;
-    _id: string;
-  }[];
-};
+
 
 const Menu = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -66,6 +56,7 @@ const Menu = () => {
       <ProductModal
         visible={isModalVisible}
         onClose={() => setIsModalVisible((prev) => !prev)}
+        product={selectedProduct}
       />
     </>
   );
