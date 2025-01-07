@@ -1,4 +1,7 @@
+import Cart from "@/components/cart/Cart";
 import TableModal from "@/components/tableModal/TableModal";
+import { products } from "@/constants/products";
+import { CartItem } from "@/types/CartItem";
 import React, { useCallback, useState } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +14,16 @@ import { styles } from "./style";
 const Main = () => {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState("");
+  const [cartItems, setCartItems] = useState<CartItem[]>([
+    {
+      quantity: 1,
+      product: products[0],
+    },
+    {
+      quantity: 2,
+      product: products[1],
+    },
+  ]);
 
   const handleTableModalVisible = useCallback(() => {
     setIsTableModalVisible((prev) => !prev);
@@ -21,13 +34,16 @@ const Main = () => {
   };
 
   const handleCancelOrder = () => {
-    setSelectedTable('');
+    setSelectedTable("");
   };
 
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <Header onCancelOrder={handleCancelOrder} selectedTable={selectedTable}/>
+        <Header
+          onCancelOrder={handleCancelOrder}
+          selectedTable={selectedTable}
+        />
         <View style={styles.categoriesContainer}>
           <Categories />
         </View>
@@ -40,6 +56,7 @@ const Main = () => {
           {!selectedTable && (
             <Button onPress={handleTableModalVisible}>Novo Pedido</Button>
           )}
+          {selectedTable && <Cart cartItems={cartItems} />}
         </SafeAreaView>
       </View>
       <TableModal

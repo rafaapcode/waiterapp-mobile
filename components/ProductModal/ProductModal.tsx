@@ -51,25 +51,27 @@ const ProductModal = ({ visible, onClose, product }: ProductModalProps) => {
             {product.description}
           </TextComponent>
         </View>
-        <View style={styles.ingredientsContainer}>
-          <TextComponent weight="600" color="#666">
-            Ingredientes
-          </TextComponent>
-          <FlatList
-            data={product.ingredients}
-            style={{ marginTop: 16 }}
-            keyExtractor={(ingredient) => ingredient._id}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.ingredient}>
-                <TextComponent>{item.icon}</TextComponent>
-                <TextComponent size={14} color="#666">
-                  {item.name}
-                </TextComponent>
-              </View>
-            )}
-          />
-        </View>
+        {product.ingredients.length > 0 && (
+          <View style={styles.ingredientsContainer}>
+            <TextComponent weight="600" color="#666">
+              Ingredientes
+            </TextComponent>
+            <FlatList
+              data={product.ingredients}
+              style={{ marginTop: 16 }}
+              keyExtractor={(ingredient) => ingredient._id}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <View style={styles.ingredient}>
+                  <TextComponent>{item.icon}</TextComponent>
+                  <TextComponent size={14} color="#666">
+                    {item.name}
+                  </TextComponent>
+                </View>
+              )}
+            />
+          </View>
+        )}
       </View>
       <View style={styles.footer}>
         <SafeAreaView style={styles.footerContainer}>
