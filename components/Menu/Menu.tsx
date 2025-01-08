@@ -8,9 +8,11 @@ import ProductModal from "../ProductModal/ProductModal";
 import TextComponent from "../Text";
 import { styles } from "./style";
 
+type MenuProps = {
+  onAddToCart: (product: ProductsType) => void;
+};
 
-
-const Menu = () => {
+const Menu = ({onAddToCart}: MenuProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductsType | null>(null);
 
@@ -47,13 +49,14 @@ const Menu = () => {
                 {formatCurrency(item.price)}
               </TextComponent>
             </View>
-            <TouchableOpacity style={styles.addToCartButton}>
+            <TouchableOpacity style={styles.addToCartButton} onPress={() => onAddToCart(item)}>
               <PlusCircle />
             </TouchableOpacity>
           </TouchableOpacity>
         )}
       />
       <ProductModal
+        onAddToCart={onAddToCart}
         visible={isModalVisible}
         onClose={() => setIsModalVisible((prev) => !prev)}
         product={selectedProduct}

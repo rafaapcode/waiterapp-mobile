@@ -18,12 +18,18 @@ type ProductModalProps = {
   visible: boolean;
   onClose: () => void;
   product: ProductsType | null;
+  onAddToCart: (product: ProductsType) => void;
 };
 
-const ProductModal = ({ visible, onClose, product }: ProductModalProps) => {
+const ProductModal = ({ visible, onClose, product, onAddToCart }: ProductModalProps) => {
   if (!product) {
     return null;
   }
+
+  const handleAddToCart = () => {
+    onAddToCart(product);
+    onClose();
+  };
 
   return (
     <Modal
@@ -81,7 +87,7 @@ const ProductModal = ({ visible, onClose, product }: ProductModalProps) => {
               {formatCurrency(product.price)}
             </TextComponent>
           </View>
-          <Button onPress={() => {}}>Adicionar ao pedido</Button>
+          <Button onPress={handleAddToCart}>Adicionar ao pedido</Button>
         </SafeAreaView>
       </View>
     </Modal>
