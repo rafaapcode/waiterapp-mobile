@@ -14,10 +14,10 @@ export const styles = StyleSheet.create({
   },
   footer: {
     minHeight: 110,
-    backgroundColor: "#FFF"
+    backgroundColor: "#FFF",
   },
   footerContainer: {
     paddingVertical: 16,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   }
 });

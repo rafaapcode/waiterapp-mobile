@@ -25,5 +25,13 @@ export const styles = StyleSheet.create({
   },
   productDetails: {
     gap: 4
+  },
+  summary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  totalContainer: {
+    width: '45%',
   }
 });

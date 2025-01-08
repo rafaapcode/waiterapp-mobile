@@ -1,6 +1,5 @@
 import Cart from "@/components/cart/Cart";
 import TableModal from "@/components/tableModal/TableModal";
-import { products } from "@/constants/products";
 import { CartItem } from "@/types/CartItem";
 import React, { useCallback, useState } from "react";
 import { View } from "react-native";
@@ -14,16 +13,7 @@ import { styles } from "./style";
 const Main = () => {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState("");
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      quantity: 1,
-      product: products[0],
-    },
-    {
-      quantity: 2,
-      product: products[1],
-    },
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const handleTableModalVisible = useCallback(() => {
     setIsTableModalVisible((prev) => !prev);
