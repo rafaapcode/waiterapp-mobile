@@ -1,20 +1,36 @@
 import { CartItem } from "@/types/CartItem";
+import { ProductsType } from "@/types/Product";
 import { formatCurrency } from "@/utils/formatCurrency";
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, Image, TouchableOpacity, View } from "react-native";
 import Button from "../button/Button";
 import { MinusCircle } from "../Icons/MinusCircle";
 import { PlusCircle } from "../Icons/PlusCircle";
+import OrderConfirmed from "../OrderConfirmedModal/OrderConfirmed";
 import TextComponent from "../Text";
 import { styles } from "./style";
 
 interface CartProps {
   cartItems: CartItem[];
+  onAdd: (product: ProductsType) => void;
+  onDecrement: (product: ProductsType) => void;
 }
 
-const Cart = ({ cartItems }: CartProps) => {
+const Cart = ({ cartItems, onAdd, onDecrement }: CartProps) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const total = cartItems.reduce(
+    (acc, value) => (acc += value.quantity * value.product.price),
+    0
+  );
+
+  const handleConfirmOrder = () => {
+    setIsModalVisible(true);
+  };
+
   return (
     <>
+      <OrderConfirmed visible={isModalVisible} onOk={() => setIsModalVisible(false)}/>
       {cartItems.length > 0 && (
         <FlatList
           data={cartItems}
@@ -45,10 +61,13 @@ const Cart = ({ cartItems }: CartProps) => {
                 </View>
               </View>
               <View style={styles.actions}>
-                <TouchableOpacity style={{ marginRight: 14 }}>
+                <TouchableOpacity
+                  style={{ marginRight: 14 }}
+                  onPress={() => onAdd(item.product)}
+                >
                   <PlusCircle />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => onDecrement(item.product)}>
                   <MinusCircle />
                 </TouchableOpacity>
               </View>
@@ -62,14 +81,16 @@ const Cart = ({ cartItems }: CartProps) => {
             <>
               <TextComponent color="#666">Total</TextComponent>
               <TextComponent size={20} weight="600">
-                {formatCurrency(120)}
+                {formatCurrency(total)}
               </TextComponent>
             </>
           ) : (
             <TextComponent color="#999">Seu carrinho está vazio</TextComponent>
           )}
         </View>
-        <Button onPress={() => {}} disabled={cartItems.length === 0}>Confirmar pedido</Button>
+        <Button onPress={handleConfirmOrder} disabled={cartItems.length === 0}>
+          Confirmar pedido
+        </Button>
       </View>
     </>
   );

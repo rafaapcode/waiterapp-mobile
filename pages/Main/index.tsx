@@ -24,8 +24,9 @@ const Main = () => {
     setSelectedTable(table);
   };
 
-  const handleCancelOrder = () => {
+  const handleResetOrder = () => {
     setSelectedTable("");
+    setCartItems([]);
   };
 
   const handleAddToCart = (product: ProductsType) => {
@@ -33,14 +34,59 @@ const Main = () => {
       setIsTableModalVisible(true);
       return;
     }
-    setCartItems((prevState) => prevState.concat({ quantity: 1, product }));
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex(
+        (value) => product._id === value.product._id
+      );
+      if (itemIndex < 0) {
+        return prevState.concat({ quantity: 1, product });
+      }
+
+      const newCartItems = [...prevState];
+      const item = newCartItems[itemIndex];
+      newCartItems[itemIndex] = {
+        ...item,
+        quantity: item.quantity + 1,
+      };
+
+      return newCartItems;
+    });
   };
+
+  const handleDecrementCartItem = (product: ProductsType) => {
+    if (!selectedTable) {
+      setIsTableModalVisible(true);
+      return;
+    }
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex(
+        (value) => product._id === value.product._id
+      );
+      if (itemIndex < 0) {
+        return prevState.concat({ quantity: 1, product });
+      }
+      const newCartItems = [...prevState];
+      const item = prevState[itemIndex];
+
+      if (item.quantity === 1) {
+        newCartItems.splice(itemIndex, 1);
+        return newCartItems;
+      }
+      newCartItems[itemIndex] = {
+        ...item,
+        quantity: item.quantity - 1,
+      };
+
+      return newCartItems;
+    });
+  };
+
 
   return (
     <>
       <SafeAreaView style={styles.container}>
         <Header
-          onCancelOrder={handleCancelOrder}
+          onCancelOrder={handleResetOrder}
           selectedTable={selectedTable}
         />
         <View style={styles.categoriesContainer}>
@@ -55,7 +101,9 @@ const Main = () => {
           {!selectedTable && (
             <Button onPress={handleTableModalVisible}>Novo Pedido</Button>
           )}
-          {selectedTable && <Cart cartItems={cartItems} />}
+          {selectedTable && (
+            <Cart onCofirmOrder={handleResetOrder} cartItems={cartItems} onAdd={handleAddToCart} onDecrement={handleDecrementCartItem}/>
+          )}
         </SafeAreaView>
       </View>
       <TableModal
