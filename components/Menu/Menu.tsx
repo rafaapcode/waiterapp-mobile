@@ -1,4 +1,3 @@
-import { products } from "@/constants/products";
 import { ProductsType } from "@/types/Product";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { useState } from "react";
@@ -10,9 +9,10 @@ import { styles } from "./style";
 
 type MenuProps = {
   onAddToCart: (product: ProductsType) => void;
+  products: ProductsType[];
 };
 
-const Menu = ({onAddToCart}: MenuProps) => {
+const Menu = ({onAddToCart, products}: MenuProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductsType | null>(null);
 

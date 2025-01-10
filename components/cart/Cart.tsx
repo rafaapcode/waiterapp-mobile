@@ -14,9 +14,11 @@ interface CartProps {
   cartItems: CartItem[];
   onAdd: (product: ProductsType) => void;
   onDecrement: (product: ProductsType) => void;
+  onCofirmOrder: () => void;
 }
 
-const Cart = ({ cartItems, onAdd, onDecrement }: CartProps) => {
+const Cart = ({onCofirmOrder, cartItems, onAdd, onDecrement }: CartProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const total = cartItems.reduce(
@@ -28,9 +30,14 @@ const Cart = ({ cartItems, onAdd, onDecrement }: CartProps) => {
     setIsModalVisible(true);
   };
 
+  const handleOk = () => {
+    onCofirmOrder();
+    setIsModalVisible(false);
+  };
+
   return (
     <>
-      <OrderConfirmed visible={isModalVisible} onOk={() => setIsModalVisible(false)}/>
+      <OrderConfirmed  visible={isModalVisible} onOk={handleOk}/>
       {cartItems.length > 0 && (
         <FlatList
           data={cartItems}
@@ -88,7 +95,7 @@ const Cart = ({ cartItems, onAdd, onDecrement }: CartProps) => {
             <TextComponent color="#999">Seu carrinho está vazio</TextComponent>
           )}
         </View>
-        <Button onPress={handleConfirmOrder} disabled={cartItems.length === 0}>
+        <Button onPress={handleConfirmOrder} disabled={cartItems.length === 0} loading={isLoading}>
           Confirmar pedido
         </Button>
       </View>

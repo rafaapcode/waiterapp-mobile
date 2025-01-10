@@ -1,20 +1,25 @@
 import Cart from "@/components/cart/Cart";
+import { Empty } from "@/components/Icons/Empty";
 import TableModal from "@/components/tableModal/TableModal";
+import TextComponent from "@/components/Text";
 import { CartItem } from "@/types/CartItem";
 import { ProductsType } from "@/types/Product";
 import React, { useCallback, useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/button/Button";
 import Categories from "../../components/Categories/Categories";
 import Header from "../../components/header/Header";
 import Menu from "../../components/Menu/Menu";
+import { products as mockProducts } from "../../constants/products";
 import { styles } from "./style";
 
 const Main = () => {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState("");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading] = useState<boolean>(false);
+  const [products] = useState<ProductsType[]>(mockProducts);
 
   const handleTableModalVisible = useCallback(() => {
     setIsTableModalVisible((prev) => !prev);
@@ -81,7 +86,6 @@ const Main = () => {
     });
   };
 
-
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -89,20 +93,42 @@ const Main = () => {
           onCancelOrder={handleResetOrder}
           selectedTable={selectedTable}
         />
-        <View style={styles.categoriesContainer}>
-          <Categories />
-        </View>
-        <View style={styles.menuContainer}>
-          <Menu onAddToCart={handleAddToCart} />
-        </View>
+        {isLoading ? (
+          <View style={styles.centeredContainer}>
+            <ActivityIndicator color="#D73035" size="large" />
+          </View>
+        ) : (
+          <>
+            <View style={styles.categoriesContainer}>
+              <Categories />
+            </View>
+            {products.length > 0 ? (
+              <View style={styles.menuContainer}>
+                <Menu products={products} onAddToCart={handleAddToCart} />
+              </View>
+            ) : (
+              <View style={styles.centeredContainer}>
+                <Empty />
+                <TextComponent color="#666">Nenhum produto foi encontrado !</TextComponent>
+              </View>
+            )}
+          </>
+        )}
       </SafeAreaView>
       <View style={styles.footer}>
         <SafeAreaView style={styles.footerContainer}>
           {!selectedTable && (
-            <Button onPress={handleTableModalVisible}>Novo Pedido</Button>
+            <Button disabled={isLoading} onPress={handleTableModalVisible}>
+              Novo Pedido
+            </Button>
           )}
           {selectedTable && (
-            <Cart onCofirmOrder={handleResetOrder} cartItems={cartItems} onAdd={handleAddToCart} onDecrement={handleDecrementCartItem}/>
+            <Cart
+              onCofirmOrder={handleResetOrder}
+              cartItems={cartItems}
+              onAdd={handleAddToCart}
+              onDecrement={handleDecrementCartItem}
+            />
           )}
         </SafeAreaView>
       </View>

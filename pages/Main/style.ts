@@ -19,5 +19,10 @@ export const styles = StyleSheet.create({
   footerContainer: {
     paddingVertical: 16,
     paddingHorizontal: 24,
+  },
+  centeredContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
   }
 });
