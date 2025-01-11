@@ -1,13 +1,17 @@
-import { categories } from "@/constants/categories";
+import { Category } from "@/types/Categorie";
 import { useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import TextComponent from "../Text";
 import { styles } from "./style";
 
-const Categories = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+interface CategoriesProps {
+  categories: Category[];
+}
+
+const Categories = ({ categories }: CategoriesProps) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const handleSelectCategory = (categoryId: string) => {
-    const category = selectedCategory === categoryId ? '' : categoryId;
+    const category = selectedCategory === categoryId ? "" : categoryId;
     setSelectedCategory(category);
   };
 

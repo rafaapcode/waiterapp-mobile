@@ -3,15 +3,16 @@ import { Empty } from "@/components/Icons/Empty";
 import TableModal from "@/components/tableModal/TableModal";
 import TextComponent from "@/components/Text";
 import { CartItem } from "@/types/CartItem";
+import { Category } from "@/types/Categorie";
 import { ProductsType } from "@/types/Product";
-import React, { useCallback, useState } from "react";
+import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/button/Button";
 import Categories from "../../components/Categories/Categories";
 import Header from "../../components/header/Header";
 import Menu from "../../components/Menu/Menu";
-import { products as mockProducts } from "../../constants/products";
 import { styles } from "./style";
 
 const Main = () => {
@@ -19,7 +20,12 @@ const Main = () => {
   const [selectedTable, setSelectedTable] = useState("");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoading] = useState<boolean>(false);
-  const [products] = useState<ProductsType[]>(mockProducts);
+  const [products] = useState<ProductsType[]>([]);
+  const [categories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    axios.get("http://192.168.18.5:3001/categories");
+  }, []);
 
   const handleTableModalVisible = useCallback(() => {
     setIsTableModalVisible((prev) => !prev);
@@ -100,7 +106,7 @@ const Main = () => {
         ) : (
           <>
             <View style={styles.categoriesContainer}>
-              <Categories />
+              <Categories categories={categories}/>
             </View>
             {products.length > 0 ? (
               <View style={styles.menuContainer}>
