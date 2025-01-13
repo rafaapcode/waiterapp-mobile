@@ -6,12 +6,15 @@ import { styles } from "./style";
 
 interface CategoriesProps {
   categories: Category[];
+  onSelectCategory: (categoryId: string) => Promise<void>;
 }
 
-const Categories = ({ categories }: CategoriesProps) => {
+const Categories = ({ categories, onSelectCategory}: CategoriesProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const handleSelectCategory = (categoryId: string) => {
     const category = selectedCategory === categoryId ? "" : categoryId;
+
+    onSelectCategory(category);
     setSelectedCategory(category);
   };
 

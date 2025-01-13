@@ -5,7 +5,7 @@ import TextComponent from "@/components/Text";
 import { CartItem } from "@/types/CartItem";
 import { Category } from "@/types/Categorie";
 import { ProductsType } from "@/types/Product";
-import axios from "axios";
+import api from "@/utils/api";
 import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,13 +19,31 @@ const Main = () => {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState("");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isLoading] = useState<boolean>(false);
-  const [products] = useState<ProductsType[]>([]);
-  const [categories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [products, setProducts] = useState<ProductsType[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   useEffect(() => {
-    axios.get("http://192.168.18.5:3001/categories");
+    Promise.all([api.get("/categories"), api.get("/products")]).then(
+      ([categoriesRes, productsRes]) => {
+        setCategories(categoriesRes.data);
+        setProducts(productsRes.data);
+        setIsLoading(false);
+      }
+    );
   }, []);
+
+  const handleSelectCategory = async (categoryId: string) => {
+    const route = !categoryId
+      ? "/products"
+      : `/categories/${categoryId}/products`;
+
+    setIsLoadingProducts(true);
+    const { data } = await api.get(route);
+    setProducts(data);
+    setIsLoadingProducts(false);
+  };
 
   const handleTableModalVisible = useCallback(() => {
     setIsTableModalVisible((prev) => !prev);
@@ -106,17 +124,31 @@ const Main = () => {
         ) : (
           <>
             <View style={styles.categoriesContainer}>
-              <Categories categories={categories}/>
+              <Categories
+                onSelectCategory={handleSelectCategory}
+                categories={categories}
+              />
             </View>
-            {products.length > 0 ? (
-              <View style={styles.menuContainer}>
-                <Menu products={products} onAddToCart={handleAddToCart} />
+
+            {isLoadingProducts ? (
+              <View style={styles.centeredContainer}>
+                <ActivityIndicator color="#D73035" size="large" />
               </View>
             ) : (
-              <View style={styles.centeredContainer}>
-                <Empty />
-                <TextComponent color="#666">Nenhum produto foi encontrado !</TextComponent>
-              </View>
+              <>
+                {products.length > 0 ? (
+                  <View style={styles.menuContainer}>
+                    <Menu products={products} onAddToCart={handleAddToCart} />
+                  </View>
+                ) : (
+                  <View style={styles.centeredContainer}>
+                    <Empty />
+                    <TextComponent color="#666">
+                      Nenhum produto foi encontrado !
+                    </TextComponent>
+                  </View>
+                )}
+              </>
             )}
           </>
         )}
