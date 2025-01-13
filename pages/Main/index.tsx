@@ -162,6 +162,7 @@ const Main = () => {
           )}
           {selectedTable && (
             <Cart
+              selectedTable={selectedTable}
               onCofirmOrder={handleResetOrder}
               cartItems={cartItems}
               onAdd={handleAddToCart}
