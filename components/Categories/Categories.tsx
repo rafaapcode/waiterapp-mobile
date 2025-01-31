@@ -36,7 +36,7 @@ const Categories = ({ categories, onSelectCategory}: CategoriesProps) => {
             >
               <View style={styles.icon}>
                 <TextComponent opacity={isSelected ? 1 : 0.5}>
-                  {item.icon}
+                  {item.icon || ""}
                 </TextComponent>
               </View>
               <TextComponent

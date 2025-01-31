@@ -25,7 +25,7 @@ const Main = () => {
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   useEffect(() => {
-    Promise.all([api.get("/categories"), api.get("/products")]).then(
+    Promise.all([api.get("/category/categories"), api.get("/product")]).then(
       ([categoriesRes, productsRes]) => {
         setCategories(categoriesRes.data);
         setProducts(productsRes.data);
@@ -36,8 +36,8 @@ const Main = () => {
 
   const handleSelectCategory = async (categoryId: string) => {
     const route = !categoryId
-      ? "/products"
-      : `/categories/${categoryId}/products`;
+      ? "/product"
+      : `/product/${categoryId}`;
 
     setIsLoadingProducts(true);
     const { data } = await api.get(route);

@@ -84,7 +84,7 @@ const ProductModal = ({ visible, onClose, product, onAddToCart }: ProductModalPr
           <View>
             <TextComponent color="#666">Preço</TextComponent>
             <TextComponent size={20} weight="600">
-              {formatCurrency(product.price)}
+              {product.discount ? formatCurrency(product.priceInDiscount) : formatCurrency(product.price)}
             </TextComponent>
           </View>
           <Button onPress={handleAddToCart}>Adicionar ao pedido</Button>

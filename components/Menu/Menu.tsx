@@ -37,7 +37,7 @@ const Menu = ({onAddToCart, products}: MenuProps) => {
             <Image
               style={styles.productImage}
               source={{
-                uri: `http://192.168.18.5:3001/uploads/${item.imagePath}`,
+                uri: `${item.imageUrl}`,
               }}
             />
             <View style={styles.productDetails}>
@@ -46,7 +46,7 @@ const Menu = ({onAddToCart, products}: MenuProps) => {
                 {item.description}
               </TextComponent>
               <TextComponent size={14} weight="600">
-                {formatCurrency(item.price)}
+                {item.discount ? formatCurrency(item.priceInDiscount) : formatCurrency(item.price)}
               </TextComponent>
             </View>
             <TouchableOpacity style={styles.addToCartButton} onPress={() => onAddToCart(item)}>

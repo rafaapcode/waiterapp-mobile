@@ -24,7 +24,11 @@ const Cart = ({onCofirmOrder, cartItems, onAdd, onDecrement, selectedTable }: Ca
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const total = cartItems.reduce(
-    (acc, value) => (acc += value.quantity * value.product.price),
+    (acc, value) => {
+      const price = value.product.discount ? value.product.priceInDiscount : value.product.price;
+      acc += value.quantity * price
+      return acc;
+    },
     0
   );
 
@@ -37,7 +41,7 @@ const Cart = ({onCofirmOrder, cartItems, onAdd, onDecrement, selectedTable }: Ca
       }))
     };
     setIsLoading(true);
-    await api.post('/orders', payload);
+    await api.post('/order', payload);
     setIsLoading(false);
     setIsModalVisible(true);
   };
